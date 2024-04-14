@@ -18,6 +18,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.internal.verification.VerificationModeFactory;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,7 +26,7 @@ public class LogisticaTest implements TestTP<FachadaLogistica> {
 
   private static final String QR_VIANDA = "123";
   private static final int HELADERA_ORIGEN = 1;
-  private static final int HELADERA_DESTINO = 1;
+  private static final int HELADERA_DESTINO = 2;
 
   FachadaLogistica instancia;
   @Mock FachadaViandas fachadaViandas;
@@ -52,11 +53,12 @@ public class LogisticaTest implements TestTP<FachadaLogistica> {
             15L,
             LogisticaTest.HELADERA_ORIGEN);
     when(fachadaViandas.buscarXQR(QR_VIANDA)).thenReturn(t);
-    var agregar = instancia.agregar(new RutaDTO(14L, LogisticaTest.HELADERA_ORIGEN, 2));
+    var agregar =
+        instancia.agregar(new RutaDTO(14L, LogisticaTest.HELADERA_ORIGEN, HELADERA_DESTINO));
     instancia.agregar(new RutaDTO(15L, LogisticaTest.HELADERA_ORIGEN, 3));
     assertNotNull(agregar.getId(), "la ruta una vez agregada deberia tener un identificador");
 
-    var traslado = new TrasladoDTO(QR_VIANDA, LogisticaTest.HELADERA_ORIGEN, 2);
+    var traslado = new TrasladoDTO(QR_VIANDA, LogisticaTest.HELADERA_ORIGEN, HELADERA_DESTINO);
     var trasladoDTO = instancia.asignarTraslado(traslado);
 
     assertEquals(
@@ -64,17 +66,21 @@ public class LogisticaTest implements TestTP<FachadaLogistica> {
         trasladoDTO.getStatus(),
         "el estado de un traslado debe figurar como asignado luego de una asignación");
     assertEquals(14L, trasladoDTO.getColaboradorId(), "No se asigno el colaborador correcto");
+    verify(
+            fachadaViandas,
+            VerificationModeFactory.description(
+                times(1), "Nunca se verificó si el QR de la vianda existe"))
+        .buscarXQR(QR_VIANDA);
   }
 
   @Test
   @DisplayName("Asignar un traslado a una vianda que no existe")
   void testAsignarRutaAViandaInexistente() throws Exception {
     when(fachadaViandas.buscarXQR(QR_VIANDA)).thenThrow(NoSuchElementException.class);
-    var agregar = instancia.agregar(new RutaDTO(14L, HELADERA_ORIGEN, 2));
-    instancia.agregar(new RutaDTO(15L, HELADERA_ORIGEN, 3));
-    assertNotNull(agregar.getId(), "la ruta una vez agregada deberia tener un identificador");
+    var agregar = instancia.agregar(new RutaDTO(14L, HELADERA_ORIGEN, HELADERA_DESTINO));
+    instancia.agregar(agregar);
 
-    var traslado = new TrasladoDTO(QR_VIANDA, HELADERA_ORIGEN, 2);
+    var traslado = new TrasladoDTO(QR_VIANDA, HELADERA_ORIGEN, HELADERA_DESTINO);
 
     assertThrows(
         NoSuchElementException.class,
@@ -85,8 +91,8 @@ public class LogisticaTest implements TestTP<FachadaLogistica> {
   @Test
   @DisplayName("Asignar un traslado con una ruta que no tiene nadie asignado")
   void testTrasladoNoAsignable() {
-    instancia.agregar(new RutaDTO(15L, 1, 3));
-    var traslado = new TrasladoDTO(QR_VIANDA, 1, 2);
+    instancia.agregar(new RutaDTO(15L, HELADERA_ORIGEN, 3));
+    var traslado = new TrasladoDTO(QR_VIANDA, HELADERA_ORIGEN, HELADERA_DESTINO);
 
     assertThrows(
         TrasladoNoAsignableException.class,
