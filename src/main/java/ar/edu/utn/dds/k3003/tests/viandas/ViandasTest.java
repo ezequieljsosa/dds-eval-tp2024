@@ -103,7 +103,7 @@ public class ViandasTest implements TestTP<FachadaViandas> {
 
   @Override
   public String paquete() {
-    return PAQUETE_BASE + "viandas";
+    return PAQUETE_BASE + "tests.viandas";
   }
 
   @Override

@@ -107,7 +107,7 @@ public class ColaboradoresTest implements TestTP<FachadaColaboradores> {
 
   @Override
   public String paquete() {
-    return PAQUETE_BASE + "colaboradores";
+    return PAQUETE_BASE + "tests.colaboradores";
   }
 
   @Override

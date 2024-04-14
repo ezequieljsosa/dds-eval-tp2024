@@ -4,8 +4,8 @@ import ar.edu.utn.dds.k3003.ClassFinder;
 
 public interface TestTP<T> {
 
-  String PAQUETE_BASE = "ar.edu.utn.dds.tp2024.";
-  public static final String PAQUETE_IMPL = PAQUETE_BASE + "app.Fachada";
+  String PAQUETE_BASE = "ar.edu.utn.dds.k3003.";
+  String PAQUETE_IMPL = PAQUETE_BASE + "app.Fachada";
 
   String paquete();
 

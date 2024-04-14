@@ -114,7 +114,7 @@ public class LogisticaTest implements TestTP<FachadaLogistica> {
 
   @Override
   public String paquete() {
-    return PAQUETE_BASE + "logistica";
+    return PAQUETE_BASE + "tests.logistica";
   }
 
   @Override

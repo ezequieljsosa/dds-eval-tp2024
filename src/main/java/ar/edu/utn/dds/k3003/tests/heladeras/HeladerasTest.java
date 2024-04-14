@@ -103,7 +103,7 @@ public class HeladerasTest implements TestTP<FachadaHeladeras> {
 
   @Override
   public String paquete() {
-    return PAQUETE_BASE + "heladeras";
+    return PAQUETE_BASE + "tests.heladeras";
   }
 
   @Override
