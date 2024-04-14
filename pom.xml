@@ -7,7 +7,7 @@
 
   <groupId>org.example</groupId>
   <artifactId>dds-eval-tp2024</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.0.2</version>
 
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
@@ -16,9 +16,11 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <lombok.version>1.18.32</lombok.version>
+    <junit-platform-launcher.version>1.10.2</junit-platform-launcher.version>
     <junit.version>5.10.2</junit.version>
     <mokito.version>5.9.0</mokito.version>
+    <lombok.version>1.18.32</lombok.version>
+
   </properties>
 
   <build>
@@ -43,21 +45,25 @@
   </build>
 
   <dependencies>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>${junit.version}</version>
-    </dependency>
+
+    <!-- Project -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>${lombok.version}</version>
       <scope>provided</scope>
     </dependency>
+
+    <!-- Test -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-launcher</artifactId>
-      <version>1.10.2</version>
+      <version>${junit-platform-launcher.version}</version>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
