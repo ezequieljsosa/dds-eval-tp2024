@@ -75,7 +75,7 @@ public class LogisticaTest implements TestTP<FachadaLogistica> {
 
   @Test
   @DisplayName("Asignar un traslado a una vianda que no existe")
-  void testAsignarRutaAViandaInexistente() throws Exception {
+  void testAsignarRutaAViandaInexistente() {
     when(fachadaViandas.buscarXQR(QR_VIANDA)).thenThrow(NoSuchElementException.class);
     var agregar = instancia.agregar(new RutaDTO(14L, HELADERA_ORIGEN, HELADERA_DESTINO));
     instancia.agregar(agregar);
@@ -96,10 +96,8 @@ public class LogisticaTest implements TestTP<FachadaLogistica> {
 
     assertThrows(
         TrasladoNoAsignableException.class,
-        () -> {
-          instancia.asignarTraslado(traslado);
-        },
-        () -> "Si no hay rutas válidas para un traslado deberia arrojar una excepcion");
+        () -> instancia.asignarTraslado(traslado),
+        "Si no hay rutas válidas para un traslado deberia arrojar una excepcion");
   }
 
   @Test
