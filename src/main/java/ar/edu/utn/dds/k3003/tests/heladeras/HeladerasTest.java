@@ -8,7 +8,6 @@ import ar.edu.utn.dds.k3003.facades.FachadaViandas;
 import ar.edu.utn.dds.k3003.facades.dtos.*;
 import ar.edu.utn.dds.k3003.tests.TestTP;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
@@ -91,13 +90,10 @@ public class HeladerasTest implements TestTP<FachadaHeladeras> {
         2,
         temperaturaDTOS.size(),
         "Las temperaturas de una heladera no se guardan/recuperan correctamente");
-    List<TemperaturaDTO> sortedTemperatures =
-        temperaturaDTOS.stream()
-            .sorted(Comparator.comparing(TemperaturaDTO::getFechaMedicion))
-            .toList();
+
     assertEquals(
         16,
-        sortedTemperatures.get(0).getTemperatura(),
+        temperaturaDTOS.get(0).getTemperatura(),
         "Las temperaturas de una heladera no se guardan/recuperan correctamente");
   }
 
