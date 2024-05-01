@@ -102,6 +102,10 @@ public class LogisticaTest implements TestTP<FachadaLogistica> {
   @Test
   @DisplayName("Probar Traslado")
   void testTrasladoOk() throws TrasladoNoAsignableException {
+    var vianda =
+        new ViandaDTO(
+            QR_VIANDA, LocalDateTime.now(), EstadoViandaEnum.DEPOSITADA, 14L, HELADERA_ORIGEN);
+    when(fachadaViandas.buscarXQR(QR_VIANDA)).thenReturn(vianda);
 
     instancia.agregar(new RutaDTO(15L, HELADERA_ORIGEN, HELADERA_DESTINO));
     var traslado = new TrasladoDTO(QR_VIANDA, HELADERA_ORIGEN, HELADERA_DESTINO);

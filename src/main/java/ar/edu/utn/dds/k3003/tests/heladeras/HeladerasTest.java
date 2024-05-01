@@ -80,12 +80,14 @@ public class HeladerasTest implements TestTP<FachadaHeladeras> {
   @Test
   @DisplayName("Guardar y obtener temperaturas")
   void testTemperaturas() {
+    int otraHeladeraId = 15;
+    instancia.agregar(new HeladeraDTO(otraHeladeraId, "Una Heladera"));
 
-    instancia.temperatura(new TemperaturaDTO(14, 14, LocalDateTime.now()));
-    instancia.temperatura(new TemperaturaDTO(15, 15, LocalDateTime.now()));
-    instancia.temperatura(new TemperaturaDTO(16, 14, LocalDateTime.now()));
+    instancia.temperatura(new TemperaturaDTO(14, HELADERA_ID, LocalDateTime.now()));
+    instancia.temperatura(new TemperaturaDTO(15, otraHeladeraId, LocalDateTime.now()));
+    instancia.temperatura(new TemperaturaDTO(16, HELADERA_ID, LocalDateTime.now()));
 
-    List<TemperaturaDTO> temperaturaDTOS = instancia.obtenerTemperaturas(14);
+    List<TemperaturaDTO> temperaturaDTOS = instancia.obtenerTemperaturas(HELADERA_ID);
     assertEquals(
         2,
         temperaturaDTOS.size(),

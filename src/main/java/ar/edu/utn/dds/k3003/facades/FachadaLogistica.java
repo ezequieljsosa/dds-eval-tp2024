@@ -14,7 +14,7 @@ public interface FachadaLogistica {
 
   TrasladoDTO asignarTraslado(TrasladoDTO traslado) throws TrasladoNoAsignableException;
 
-  List<TrasladoDTO> trasladosDeColaborador(Long id, Integer mes, Integer anio);
+  List<TrasladoDTO> trasladosDeColaborador(Long colaboradorId, Integer mes, Integer anio);
 
   void setHeladerasProxy(FachadaHeladeras fachadaHeladeras);
 
