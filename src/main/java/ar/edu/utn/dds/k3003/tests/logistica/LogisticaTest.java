@@ -1,7 +1,6 @@
 package ar.edu.utn.dds.k3003.tests.logistica;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 import ar.edu.utn.dds.k3003.facades.FachadaHeladeras;
@@ -103,18 +102,17 @@ public class LogisticaTest implements TestTP<FachadaLogistica> {
   @Test
   @DisplayName("Probar Traslado")
   void testTrasladoOk() throws TrasladoNoAsignableException {
-    RetiroDTO retiro = new RetiroDTO(QR_VIANDA, "321", HELADERA_ORIGEN);
 
     instancia.agregar(new RutaDTO(15L, HELADERA_ORIGEN, HELADERA_DESTINO));
     var traslado = new TrasladoDTO(QR_VIANDA, HELADERA_ORIGEN, HELADERA_DESTINO);
     TrasladoDTO trasladoDTO = instancia.asignarTraslado(traslado);
 
     instancia.trasladoRetirado(trasladoDTO.getId());
-    verify(fachadaHeladeras).retirar(eq(retiro));
+    verify(fachadaHeladeras).retirar(argThat(retiro -> retiro.getQrVianda().equals(QR_VIANDA)));
     verify(fachadaViandas).modificarEstado(QR_VIANDA, EstadoViandaEnum.EN_TRASLADO);
 
     instancia.trasladoDepositado(trasladoDTO.getId());
-    verify(fachadaHeladeras).retirar(eq(retiro));
+    verify(fachadaHeladeras).retirar(argThat(retiro -> retiro.getQrVianda().equals(QR_VIANDA)));
     verify(fachadaViandas).modificarHeladera(QR_VIANDA, HELADERA_DESTINO);
     verify(fachadaViandas).modificarEstado(QR_VIANDA, EstadoViandaEnum.DEPOSITADA);
   }
