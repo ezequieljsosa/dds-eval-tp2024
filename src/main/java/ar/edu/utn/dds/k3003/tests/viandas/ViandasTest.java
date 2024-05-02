@@ -52,7 +52,7 @@ public class ViandasTest implements TestTP<FachadaViandas> {
     instancia.agregar(
         new ViandaDTO("otroQr", now, EstadoViandaEnum.RETIRADA, COLABORADOR_ID, HELADERA_ID));
     assertEquals(
-        1,
+        2,
         instancia.viandasDeColaborador(COLABORADOR_ID, now.getMonthValue(), now.getYear()).size());
 
     var viandaEncontrada = instancia.buscarXQR(vianda.getCodigoQR());
@@ -89,14 +89,14 @@ public class ViandasTest implements TestTP<FachadaViandas> {
   @DisplayName("Ver si la vianda venció")
   void testEvaluarVencimiento() {
 
-    var heladeraId = 14;
     instancia.setHeladerasProxy(fachadaHeladeras);
     ViandaDTO viandaAgregada = instancia.agregar(vianda);
 
-    when(fachadaHeladeras.obtenerTemperaturas(heladeraId))
+    when(fachadaHeladeras.obtenerTemperaturas(HELADERA_ID))
         .thenReturn(
             List.of(
-                new TemperaturaDTO(5, heladeraId, now), new TemperaturaDTO(-10, heladeraId, now)));
+                new TemperaturaDTO(5, HELADERA_ID, now),
+                new TemperaturaDTO(-10, HELADERA_ID, now)));
 
     assertTrue(
         instancia.evaluarVencimiento(viandaAgregada.getCodigoQR()),
