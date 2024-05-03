@@ -96,13 +96,17 @@ public class ColaboradoresTest implements TestTP<FachadaColaboradores> {
     when(viandas.viandasDeColaborador(colaboradorRta.getId(), 1, 2024))
         .thenReturn(List.of(viandaDTO));
     puntos = instancia.puntos(colaboradorRta.getId());
-    assertEquals(1.5, puntos, "Si hay un traslado y una vianda el puntaje deberia ser 1.5.");
+    assertEquals(
+        2.5,
+        puntos,
+        "Si hay un traslado y una vianda el puntaje deberia ser 2.5 (1 por la vianda distribuida y"
+            + " 1.5 por la vianda donada).");
 
     when(logistica.trasladosDeColaborador(colaboradorRta.getId(), 1, 2024)).thenReturn(List.of());
     when(viandas.viandasDeColaborador(colaboradorRta.getId(), 1, 2024))
         .thenReturn(List.of(viandaDTO));
     puntos = instancia.puntos(colaboradorRta.getId());
-    assertEquals(1.0, puntos, "Si hay una vianda y nada mas el puntaje deberia ser 1.");
+    assertEquals(1.5, puntos, "Si hay una vianda y nada más, el puntaje deberia ser 1,5.");
   }
 
   @Override
