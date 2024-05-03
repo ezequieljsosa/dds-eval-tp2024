@@ -48,7 +48,7 @@ public class ColaboradoresTest implements TestTP<FachadaColaboradores> {
         "FachadaColaboradores#agregar debe retornar un ColaboradorDTO con un id inicializado.");
     instancia.agregar(new ColaboradorDTO("juan", List.of(FormaDeColaborarEnum.DONADOR)));
 
-    ColaboradorDTO colaborador3 = instancia.buscarXId(colaborador1.getId());
+    ColaboradorDTO colaborador3 = instancia.buscarXId(colaboradorRta.getId());
     assertEquals(
         this.nombre1,
         colaborador3.getNombre(),
