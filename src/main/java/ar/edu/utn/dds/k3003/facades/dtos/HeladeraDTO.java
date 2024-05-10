@@ -1,13 +1,18 @@
 package ar.edu.utn.dds.k3003.facades.dtos;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HeladeraDTO {
   private Integer id;
-  private final String nombre;
+  private String nombre;
+
+  public HeladeraDTO(String nombre) {
+    this.nombre = nombre;
+  }
 }

@@ -1,20 +1,22 @@
 package ar.edu.utn.dds.k3003.facades.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
-@Setter
 @EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RetiroDTO {
+  @Setter private Long id;
+  private String qrVianda;
+  private String tarjeta;
 
-  private Long id;
-  private final String qrVianda;
-  private final String tarjeta;
-  @EqualsAndHashCode.Exclude private final LocalDateTime fechaRetiro;
-  private final Integer heladeraId;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DEFAULT_SERIALIZATION_FORMAT)
+  @EqualsAndHashCode.Exclude
+  private LocalDateTime fechaRetiro;
+
+  private Integer heladeraId;
 
   public RetiroDTO(String qrVianda, String tarjeta, Integer heladeraId) {
     this.qrVianda = qrVianda;
