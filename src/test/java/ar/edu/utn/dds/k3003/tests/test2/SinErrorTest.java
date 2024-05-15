@@ -1,4 +1,4 @@
-package ar.edu.utn.dds.k3003.test2;
+package ar.edu.utn.dds.k3003.tests.test2;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

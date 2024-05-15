@@ -11,11 +11,11 @@ public class EvaluadorTest {
   @Test
   public void testEvaluador() {
 
-    int i = Evaluador.runTests(PACKAGE_ROOT + ".test2");
+    int i = Evaluador.runTests(PACKAGE_ROOT + ".tests.test2");
     assertEquals(0, i);
-    i = Evaluador.runTests(PACKAGE_ROOT + ".test3");
+    i = Evaluador.runTests(PACKAGE_ROOT + ".tests.test3");
     assertEquals(2, i);
-    i = Evaluador.runTests(PACKAGE_ROOT + ".test4");
+    i = Evaluador.runTests(PACKAGE_ROOT + ".tests.test4");
     assertEquals(1, i);
 
     i = Evaluador.runTests(PACKAGE_ROOT + ".app");

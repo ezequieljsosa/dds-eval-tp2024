@@ -1,6 +1,7 @@
 package ar.edu.utn.dds.k3003.tests.heladeras;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 import ar.edu.utn.dds.k3003.facades.FachadaHeladeras;
@@ -20,7 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class HeladerasTest implements TestTP<FachadaHeladeras> {
 
-  private static final Integer HELADERA_ID = 18;
+  private Integer HELADERA_ID;
 
   FachadaHeladeras instancia;
 
@@ -32,7 +33,9 @@ public class HeladerasTest implements TestTP<FachadaHeladeras> {
   @BeforeEach
   void setUp() {
     instancia = this.instance();
-    instancia.agregar(new HeladeraDTO(HELADERA_ID, "Una Heladera"));
+    var unaHeladera = instancia.agregar(new HeladeraDTO("Una Heladera"));
+    HELADERA_ID = unaHeladera.getId();
+    assertNotNull(HELADERA_ID, "Cuando se agrego la heladera no se seteo el id.");
     instancia.setViandasProxy(viandas);
   }
 
@@ -80,8 +83,8 @@ public class HeladerasTest implements TestTP<FachadaHeladeras> {
   @Test
   @DisplayName("Guardar y obtener temperaturas")
   void testTemperaturas() {
-    int otraHeladeraId = 15;
-    instancia.agregar(new HeladeraDTO(otraHeladeraId, "Una Heladera"));
+    HeladeraDTO unaHeladera = instancia.agregar(new HeladeraDTO("Una Heladera"));
+    int otraHeladeraId = unaHeladera.getId();
 
     instancia.temperatura(new TemperaturaDTO(14, HELADERA_ID, LocalDateTime.now()));
     instancia.temperatura(new TemperaturaDTO(15, otraHeladeraId, LocalDateTime.now()));

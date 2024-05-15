@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class HeladeraDTO {
   private Integer id;
   private String nombre;
+  private Integer cantidadDeViandas;
 
   public HeladeraDTO(String nombre) {
     this.nombre = nombre;
