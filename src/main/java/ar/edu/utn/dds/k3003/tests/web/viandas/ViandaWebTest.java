@@ -21,21 +21,20 @@ public class ViandaWebTest {
   @SneakyThrows
   void testAPIVianda() {
     var mapper = Evaluador.createObjectMapper();
-    HttpClient client = HttpClient.newHttpClient();
+    var client = HttpClient.newHttpClient();
 
-    ViandaDTO value =
-        new ViandaDTO("codigoQR", LocalDateTime.now(), EstadoViandaEnum.PREPARADA, 1L, 2);
+    var value = new ViandaDTO("codigoQR", LocalDateTime.now(), EstadoViandaEnum.PREPARADA, 1L, 2);
     var request =
         createRequest("/viandas")
             .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(value)))
             .build();
-    HttpResponse<String> send = client.send(request, HttpResponse.BodyHandlers.ofString());
+    var send = client.send(request, HttpResponse.BodyHandlers.ofString());
     var vianda = mapper.readValue(send.body(), ViandaDTO.class);
 
     // ----------------------------------------
 
     var request2 = createRequest("/viandas/" + vianda.getCodigoQR()).GET().build();
-    HttpResponse<String> send2 = client.send(request2, HttpResponse.BodyHandlers.ofString());
+    var send2 = client.send(request2, HttpResponse.BodyHandlers.ofString());
     var vianda2 = mapper.readValue(send2.body(), ViandaDTO.class);
     assertEquals(
         vianda, vianda2, "La vianda creada con el POST no es igual a la recuperada con el GET");
@@ -48,7 +47,7 @@ public class ViandaWebTest {
                     1L, LocalDateTime.now().getYear(), LocalDateTime.now().getMonthValue()))
             .GET()
             .build();
-    HttpResponse<String> send3 = client.send(request3, HttpResponse.BodyHandlers.ofString());
+    var send3 = client.send(request3, HttpResponse.BodyHandlers.ofString());
     var vianda3 = mapper.readValue(send3.body(), ViandaDTO.class);
     assertEquals(
         vianda,

@@ -28,13 +28,13 @@ public class ColaboradorWebTest {
         createRequest("/colaboradores")
             .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(donadorDTO)))
             .build();
-    HttpResponse<String> send = client.send(request, HttpResponse.BodyHandlers.ofString());
+    var send = client.send(request, HttpResponse.BodyHandlers.ofString());
     var donador = mapper.readValue(send.body(), ColaboradorDTO.class);
 
     // ----------------------------------------
 
     var request2 = createRequest("/colaboradores/" + donador.getId().toString()).GET().build();
-    HttpResponse<String> send2 = client.send(request2, HttpResponse.BodyHandlers.ofString());
+    var send2 = client.send(request2, HttpResponse.BodyHandlers.ofString());
     var donador2 = mapper.readValue(send2.body(), ColaboradorDTO.class);
     assertEquals(
         donador,

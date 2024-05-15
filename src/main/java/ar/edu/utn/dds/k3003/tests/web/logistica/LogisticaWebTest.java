@@ -31,7 +31,7 @@ public class LogisticaWebTest {
 
     // ----------------------------------------
 
-    var request2 = createRequest("//traslados/" + traslado.getId().toString()).GET().build();
+    var request2 = createRequest("/traslados/" + traslado.getId().toString()).GET().build();
     var send2 = client.send(request2, HttpResponse.BodyHandlers.ofString());
     var traslado2 = mapper.readValue(send2.body(), TrasladoDTO.class);
     assertEquals(
