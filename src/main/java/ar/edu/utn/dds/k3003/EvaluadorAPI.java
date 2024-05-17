@@ -11,7 +11,7 @@ public class EvaluadorAPI {
   public static void main(String[] args) {
     if (args.length != 2) {
       System.out.println("Uso: [URL] [APP]");
-      System.out.println("Ejemplo URL: http://localhost:8080/");
+      System.out.println("Ejemplo URL: http://localhost:8080 --> no poner '/' al final");
       System.out.println("APPs uno de los siguientes: logistica heladeras viandas colaboradores");
       System.exit(2);
     }

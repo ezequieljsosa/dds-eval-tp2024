@@ -1,6 +1,7 @@
 package ar.edu.utn.dds.k3003.tests.web.colaboradores;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import ar.edu.utn.dds.k3003.Evaluador;
 import ar.edu.utn.dds.k3003.EvaluadorAPI;
@@ -29,12 +30,20 @@ public class ColaboradorWebTest {
             .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(donadorDTO)))
             .build();
     var send = client.send(request, HttpResponse.BodyHandlers.ofString());
+    if ((200 > send.statusCode()) || (send.statusCode() > 300)) {
+      System.err.println(String.format("Error %s : %s ", send.statusCode(), send.body()));
+      fail();
+    }
     var donador = mapper.readValue(send.body(), ColaboradorDTO.class);
 
     // ----------------------------------------
 
     var request2 = createRequest("/colaboradores/" + donador.getId().toString()).GET().build();
     var send2 = client.send(request2, HttpResponse.BodyHandlers.ofString());
+    if ((200 > send2.statusCode()) || (send2.statusCode() > 300)) {
+      System.err.println(String.format("Error %s : %s ", send2.statusCode(), send2.body()));
+      fail();
+    }
     var donador2 = mapper.readValue(send2.body(), ColaboradorDTO.class);
     assertEquals(
         donador,
@@ -44,6 +53,8 @@ public class ColaboradorWebTest {
 
   private HttpRequest.Builder createRequest(String path) throws URISyntaxException {
     var baseUrl = EvaluadorAPI.BASE_URL;
-    return HttpRequest.newBuilder().uri(new URI(baseUrl + path));
+    String urlCompleta = baseUrl + path;
+    System.err.println("Creando request a: " + urlCompleta);
+    return HttpRequest.newBuilder().uri(new URI(urlCompleta));
   }
 }

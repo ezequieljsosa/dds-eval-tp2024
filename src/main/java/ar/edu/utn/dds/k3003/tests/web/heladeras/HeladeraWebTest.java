@@ -1,6 +1,7 @@
 package ar.edu.utn.dds.k3003.tests.web.heladeras;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import ar.edu.utn.dds.k3003.Evaluador;
 import ar.edu.utn.dds.k3003.EvaluadorAPI;
@@ -27,12 +28,20 @@ public class HeladeraWebTest {
             .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(heladeraDTO)))
             .build();
     var send = client.send(request, HttpResponse.BodyHandlers.ofString());
+    if ((200 > send.statusCode()) || (send.statusCode() > 300)) {
+      System.err.println(String.format("Error %s : %s ", send.statusCode(), send.body()));
+      fail();
+    }
     var heladera = mapper.readValue(send.body(), HeladeraDTO.class);
 
     // ----------------------------------------
 
     var request2 = createRequest("/heladeras/" + heladera.getId().toString()).GET().build();
     var send2 = client.send(request2, HttpResponse.BodyHandlers.ofString());
+    if ((200 > send2.statusCode()) || (send2.statusCode() > 300)) {
+      System.err.println(String.format("Error %s : %s ", send2.statusCode(), send2.body()));
+      fail();
+    }
     var heladera2 = mapper.readValue(send2.body(), HeladeraDTO.class);
     assertEquals(
         heladera,
@@ -42,6 +51,8 @@ public class HeladeraWebTest {
 
   private HttpRequest.Builder createRequest(String path) throws URISyntaxException {
     var baseUrl = EvaluadorAPI.BASE_URL;
-    return HttpRequest.newBuilder().uri(new URI(baseUrl + path));
+    String urlCompleta = baseUrl + path;
+    System.err.println("Creando request a: " + urlCompleta);
+    return HttpRequest.newBuilder().uri(new URI(urlCompleta));
   }
 }

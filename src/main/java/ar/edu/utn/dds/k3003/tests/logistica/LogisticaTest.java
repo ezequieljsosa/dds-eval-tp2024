@@ -44,7 +44,7 @@ public class LogisticaTest implements TestTP<FachadaLogistica> {
   @DisplayName("Agregar una ruta y asignar un traslado")
   void testAgregarRutaYasignarTraslado() throws Exception {
 
-    ViandaDTO t =
+    var t =
         new ViandaDTO(
             QR_VIANDA,
             LocalDateTime.now(),

@@ -1,6 +1,7 @@
 package ar.edu.utn.dds.k3003.tests.web.viandas;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import ar.edu.utn.dds.k3003.Evaluador;
 import ar.edu.utn.dds.k3003.EvaluadorAPI;
@@ -29,12 +30,20 @@ public class ViandaWebTest {
             .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(value)))
             .build();
     var send = client.send(request, HttpResponse.BodyHandlers.ofString());
+    if ((200 > send.statusCode()) || (send.statusCode() > 300)) {
+      System.err.println(String.format("Error %s : %s ", send.statusCode(), send.body()));
+      fail();
+    }
     var vianda = mapper.readValue(send.body(), ViandaDTO.class);
 
     // ----------------------------------------
 
     var request2 = createRequest("/viandas/" + vianda.getCodigoQR()).GET().build();
     var send2 = client.send(request2, HttpResponse.BodyHandlers.ofString());
+    if ((200 > send2.statusCode()) || (send2.statusCode() > 300)) {
+      System.err.println(String.format("Error %s : %s ", send2.statusCode(), send2.body()));
+      fail();
+    }
     var vianda2 = mapper.readValue(send2.body(), ViandaDTO.class);
     assertEquals(
         vianda, vianda2, "La vianda creada con el POST no es igual a la recuperada con el GET");
@@ -48,6 +57,10 @@ public class ViandaWebTest {
             .GET()
             .build();
     var send3 = client.send(request3, HttpResponse.BodyHandlers.ofString());
+    if ((200 > send3.statusCode()) || (send3.statusCode() > 300)) {
+      System.err.println(String.format("Error %s : %s ", send3.statusCode(), send3.body()));
+      fail();
+    }
     var vianda3 = mapper.readValue(send3.body(), ViandaDTO.class);
     assertEquals(
         vianda,
@@ -57,6 +70,8 @@ public class ViandaWebTest {
 
   private HttpRequest.Builder createRequest(String path) throws URISyntaxException {
     var baseUrl = EvaluadorAPI.BASE_URL;
-    return HttpRequest.newBuilder().uri(new URI(baseUrl + path));
+    String urlCompleta = baseUrl + path;
+    System.err.println("Creando request a: " + urlCompleta);
+    return HttpRequest.newBuilder().uri(new URI(urlCompleta));
   }
 }

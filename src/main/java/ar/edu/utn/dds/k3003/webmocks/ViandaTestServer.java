@@ -4,8 +4,11 @@ import ar.edu.utn.dds.k3003.facades.FachadaColaboradores;
 import ar.edu.utn.dds.k3003.facades.FachadaHeladeras;
 import ar.edu.utn.dds.k3003.facades.FachadaLogistica;
 import ar.edu.utn.dds.k3003.facades.FachadaViandas;
+import ar.edu.utn.dds.k3003.facades.dtos.EstadoTrasladoEnum;
 import ar.edu.utn.dds.k3003.facades.dtos.EstadoViandaEnum;
+import ar.edu.utn.dds.k3003.facades.dtos.TrasladoDTO;
 import ar.edu.utn.dds.k3003.facades.dtos.ViandaDTO;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
@@ -72,7 +75,22 @@ public class ViandaTestServer {
     context.result("Funcionando");
   }
 
-  private static void modificarTraslado(Context context) {}
+  private static void modificarTraslado(Context context) {
+
+    var trasladoId = Long.parseLong(context.pathParam("id"));
+
+    var statusChange = context.bodyAsClass(JsonNode.class);
+
+    var trasladoDTO =
+        new TrasladoDTO(
+            "qrVianda",
+            EstadoTrasladoEnum.valueOf(statusChange.get("status").asText()),
+            null,
+            null,
+            null);
+    trasladoDTO.setId(trasladoId);
+    context.json(trasladoDTO);
+  }
 
   private static void obtenerTraslado(Context context) {}
 
@@ -100,7 +118,22 @@ public class ViandaTestServer {
 
   private static void agregarColaborador(Context context) {}
 
-  private static void modificarVianda(Context context) {}
+  private static void modificarVianda(Context context) {
+
+    var qr = context.pathParam("qr");
+
+    var statusChange = context.bodyAsClass(JsonNode.class);
+
+    var vianda =
+        new ViandaDTO(
+            qr,
+            LocalDateTime.now(),
+            EstadoViandaEnum.valueOf(statusChange.get("estado").textValue()),
+            null,
+            null);
+
+    context.json(vianda);
+  }
 
   private static void viandaVencida(Context context) {}
 
