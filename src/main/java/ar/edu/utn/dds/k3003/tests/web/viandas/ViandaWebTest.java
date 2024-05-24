@@ -7,12 +7,14 @@ import ar.edu.utn.dds.k3003.Evaluador;
 import ar.edu.utn.dds.k3003.EvaluadorAPI;
 import ar.edu.utn.dds.k3003.facades.dtos.EstadoViandaEnum;
 import ar.edu.utn.dds.k3003.facades.dtos.ViandaDTO;
+import com.fasterxml.jackson.core.type.TypeReference;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
@@ -61,10 +63,10 @@ public class ViandaWebTest {
       System.err.println(String.format("Error %s : %s ", send3.statusCode(), send3.body()));
       fail();
     }
-    var vianda3 = mapper.readValue(send3.body(), ViandaDTO.class);
+    var vianda3 = mapper.readValue(send3.body(), new TypeReference<List<ViandaDTO>>() {});
     assertEquals(
         vianda,
-        vianda3,
+        vianda3.get(0),
         "La vianda creada con el POST no es igual a la recuperada con el findByColaborador");
   }
 

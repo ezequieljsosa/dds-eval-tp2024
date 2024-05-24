@@ -7,7 +7,7 @@
 
   <groupId>com.github.ezequieljsosa</groupId>
   <artifactId>dds-eval-tp2024</artifactId>
-  <version>0.0.21</version>
+  <version>0.0.22</version>
   <packaging>jar</packaging>
 
   <properties>
